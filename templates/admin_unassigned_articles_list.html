@@ -1,0 +1,73 @@
+{% extends 'admin_dash_base.html' %}
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Content</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                <tr>
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.author }}</td>
+                    <td>{{ article.content }}</td>
+                    <td>{{ article.status }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html> -->
+
+
+
+{% block title %}Unassigned Articles{% endblock %}
+
+{% block body %}
+    <h1 class="article-list-heading">UNASSIGNED ARTICLES</h1>
+    <table class="articles-list">
+        <thead>
+            <tr style="color: rgb(200, 170, 18);">
+                <th>Title</th>
+                <th>Author</th>
+                <th>Select reviewer</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                {% for article in articles.0 %}
+                <tr style="color: rgb(218, 218, 218);">
+                    <td><a href="{% url "magazine:admin_view_article" article.article_id %}">{{article.title }}</a></td>
+                    <td>{{ article.author }}</td>
+                    <td>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <select class="drop-down ic3" name="reviewer{{article.article_id}}" id="reviewer{{article.article_id}}">
+                            {% for x in articles.1 %}
+                            <option value="{{x.0}}*{{article.article_id}}">{{x.1}}</option>
+                            {% endfor %}
+                            </select>
+                            <input type="submit" class="assign-reviewer-submit" value="Send for review">
+                            <br><br>
+                          </form>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                {% endfor %}
+                    
+
+            
+        </tbody>
+    </table>
+
+    
+{% endblock %}
